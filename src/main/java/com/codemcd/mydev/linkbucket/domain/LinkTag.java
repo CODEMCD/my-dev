@@ -30,4 +30,9 @@ public class LinkTag extends BaseEntity {
         this.link = link;
         this.tag = tag;
     }
+
+    public void update(LinkTag another) {
+        this.link = another.link;
+        this.tag = another.tag;
+    }
 }
