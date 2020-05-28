@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,7 +37,7 @@ public class LinkApiControllerTest {
 
     @Test
     @DisplayName("정상적으로 Link 데이터를 저장 요청했을 때 저장 후 해당 Link의 id를 응답한다.")
-    void save() throws Exception {
+    void create() throws Exception {
         String url = "www.github.com/codemcd";
         String title = "my github";
         String description = "This is...";
@@ -44,7 +45,7 @@ public class LinkApiControllerTest {
         List<String> tags = Arrays.asList("Java", "Spring Boot", "JPA");
 
         LinkRequestDto linkRequestDto = new LinkRequestDto(url, title, description, image, tags);
-        LinkResponseDto linkResponseDto = new LinkResponseDto(1L);
+        LinkResponseDto linkResponseDto = new LinkResponseDto(1L, url, title, description, image, tags);
 
         given(linkService.save(any())).willReturn(linkResponseDto);
 
@@ -59,5 +60,29 @@ public class LinkApiControllerTest {
 
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty());
+    }
+
+    @Test
+    @DisplayName("모든 Link를 조회한다.")
+    void read_all() throws Exception {
+        String url = "www.github.com/codemcd";
+        String title = "my github";
+        String description = "This is...";
+        String image = "image file";
+        List<String> tags = Arrays.asList("Java", "Spring Boot", "JPA");
+
+        LinkResponseDto linkResponseDto1 = new LinkResponseDto(1L, url, title, description, image, tags);
+        LinkResponseDto linkResponseDto2 = new LinkResponseDto(2L, url, title, description, image, tags);
+
+        List<LinkResponseDto> responses = Arrays.asList(linkResponseDto1, linkResponseDto2);
+
+        given(linkService.findAll()).willReturn(responses);
+
+        ResultActions actions = mvc.perform(get("/links")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print());
+
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 }

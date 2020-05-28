@@ -8,6 +8,7 @@ import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,11 @@ public class LinkService {
 
         tags.forEach(tag -> linkTagService.save(link, tag));
 
-        return new LinkResponseDto(link.getId());
+        return new LinkResponseDto(link.getId(), link.getUrl(), link.getTitle(), link.getDescription(),
+                link.getImage(), tags.stream().map(Tag::getName).collect(Collectors.toList()));
+    }
+
+    public List<LinkResponseDto> findAll() {
+        return null;
     }
 }
