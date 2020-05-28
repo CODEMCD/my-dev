@@ -21,6 +21,6 @@ public class Tag extends BaseEntity {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "TAG")
+    @OneToMany(mappedBy = "tag")
     private List<LinkTag> links = new ArrayList<>();
 }

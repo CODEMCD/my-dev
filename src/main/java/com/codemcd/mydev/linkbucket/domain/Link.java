@@ -31,7 +31,7 @@ public class Link extends BaseEntity {
     @Column(name = "IMAGE")
     private String image;
 
-    @OneToMany(mappedBy = "LINK")
+    @OneToMany(mappedBy = "link")
     private List<LinkTag> tags = new ArrayList<>();
 
     @Builder
@@ -40,5 +40,12 @@ public class Link extends BaseEntity {
         this.title = title;
         this.description = description;
         this.image = image;
+    }
+
+    public void update(Link another) {
+        this.url = another.url;
+        this.title = another.title;
+        this.description = another.description;
+        this.image = another.image;
     }
 }
