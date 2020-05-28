@@ -46,4 +46,16 @@ public class TagRepositoryTest {
 
         assertThat(tagRepository.findById(tag.getId())).isEmpty();
     }
+
+    @Test
+    void find_by_name() {
+        String tagName = "Java";
+        Tag tag = Tag.builder().name(tagName).build();
+
+        tagRepository.save(tag);
+
+        Tag foundTag = tagRepository.findByName(tagName).orElseThrow(IllegalArgumentException::new);
+
+        assertThat(foundTag).isEqualTo(tag);
+    }
 }
