@@ -2,6 +2,7 @@ package com.codemcd.mydev.linkbucket.domain;
 
 import com.codemcd.mydev.common.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,13 @@ public class Tag extends BaseEntity {
 
     @OneToMany(mappedBy = "tag")
     private List<LinkTag> links = new ArrayList<>();
+
+    @Builder
+    public Tag(String name) {
+        this.name = name;
+    }
+
+    public void update(Tag another) {
+        this.name = another.name;
+    }
 }

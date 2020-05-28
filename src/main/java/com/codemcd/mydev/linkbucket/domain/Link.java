@@ -47,5 +47,6 @@ public class Link extends BaseEntity {
         this.title = another.title;
         this.description = another.description;
         this.image = another.image;
+        this.tags = new ArrayList<>(another.tags);
     }
 }
