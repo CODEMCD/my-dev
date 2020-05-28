@@ -2,14 +2,13 @@ package com.codemcd.mydev.linkbucket.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
+@ActiveProfiles("test")
 @DataJpaTest
 public class LinkRepositoryTest {
 
@@ -36,20 +35,20 @@ public class LinkRepositoryTest {
         assertThat(foundLink).isEqualTo(link);
 
         // Update
-        Link updateLink = Link.builder()
+        Link anotherLink = Link.builder()
                 .url("updatedURL")
                 .title("updatedTitle")
                 .description("Updated...")
                 .image("updatedImage").build();
 
-        link.update(updateLink);
+        link.update(anotherLink);
 
         Link updatedLink = linkRepository.findById(link.getId()).orElseThrow(IllegalArgumentException::new);
 
-        assertThat(updatedLink.getUrl()).isEqualTo(updateLink.getUrl());
-        assertThat(updatedLink.getTitle()).isEqualTo(updateLink.getTitle());
-        assertThat(updatedLink.getDescription()).isEqualTo(updateLink.getDescription());
-        assertThat(updatedLink.getImage()).isEqualTo(updateLink.getImage());
+        assertThat(updatedLink.getUrl()).isEqualTo(anotherLink.getUrl());
+        assertThat(updatedLink.getTitle()).isEqualTo(anotherLink.getTitle());
+        assertThat(updatedLink.getDescription()).isEqualTo(anotherLink.getDescription());
+        assertThat(updatedLink.getImage()).isEqualTo(anotherLink.getImage());
 
         // Delete
         linkRepository.delete(link);
