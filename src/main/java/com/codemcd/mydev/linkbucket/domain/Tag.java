@@ -10,8 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,7 +23,7 @@ public class Tag extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "tag")
-    private List<LinkTag> links = new ArrayList<>();
+    private Set<LinkTag> links = new LinkedHashSet<>();
 
     @Builder
     public Tag(String name) {

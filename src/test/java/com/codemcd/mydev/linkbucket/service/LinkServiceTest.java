@@ -35,4 +35,30 @@ public class LinkServiceTest {
 
         assertThat(linkResponseDto.getId()).isNotNull();
     }
+
+    @Test
+    @DisplayName("데이터베이스에 저장되어 있는 전체 Link 리스트를 반환한다.")
+    void find_all() {
+        String url1 = "www.github.com/codemcd";
+        String title1 = "my github";
+        String description1 = "This is...";
+        String image1 = "image file 1";
+        List<String> tags1 = Arrays.asList("Java", "Spring Boot", "JPA");
+
+        LinkRequestDto linkRequestDto1 = new LinkRequestDto(url1, title1, description1, image1, tags1);
+        linkService.save(linkRequestDto1);
+
+        String url2 = "www.github.com/park";
+        String title2 = "another github";
+        String description2 = "This is...";
+        String image2 = "image file 2";
+        List<String> tags2 = Arrays.asList("Kotlin", "Spring Boot", "JPA", "MySQL");
+
+        LinkRequestDto linkRequestDto2 = new LinkRequestDto(url2, title2, description2, image2, tags2);
+        linkService.save(linkRequestDto2);
+
+        List<LinkResponseDto> responses = linkService.findAll();
+
+        assertThat(responses).hasSize(2);
+    }
 }

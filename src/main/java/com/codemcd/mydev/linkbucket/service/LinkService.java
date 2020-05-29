@@ -38,8 +38,7 @@ public class LinkService {
 
         Set<Tag> tags = linkRequestDto.getTags().stream()
                 .map(tagService::saveOrGet)
-                .collect(Collectors.toSet())
-                ;
+                .collect(Collectors.toSet());
 
         tags.forEach(tag -> linkTagService.save(link, tag));
 
@@ -48,6 +47,13 @@ public class LinkService {
     }
 
     public List<LinkResponseDto> findAll() {
-        return null;
+        List<Link> links = linkRepository.findAllJoinFetch();
+
+        return links.stream()
+                .map(link -> new LinkResponseDto(link.getId(), link.getUrl(), link.getTitle(),
+                        link.getDescription(), link.getImage(),
+                        link.getTags().stream().map(linkTag -> linkTag.getTag().getName()).collect(Collectors.toList())))
+                .collect(Collectors.toList())
+                ;
     }
 }
