@@ -33,7 +33,7 @@ public class TagRepositoryTest {
 
         // Update
         Tag anotherTag = Tag.builder()
-                .name("Spring Boot").build();
+                .name("Spring-Boot").build();
 
         tag.update(anotherTag);
 

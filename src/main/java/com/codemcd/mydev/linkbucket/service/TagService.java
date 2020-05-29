@@ -2,6 +2,7 @@ package com.codemcd.mydev.linkbucket.service;
 
 import com.codemcd.mydev.linkbucket.domain.Tag;
 import com.codemcd.mydev.linkbucket.domain.TagRepository;
+import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,5 +32,9 @@ public class TagService {
                 .map(tag -> new TagResponseDto(tag.getId(), tag.getName(), tag.getLinks().size()))
                 .collect(Collectors.toList())
                 ;
+    }
+
+    public List<LinkResponseDto> find(String tagName) {
+        return null;
     }
 }

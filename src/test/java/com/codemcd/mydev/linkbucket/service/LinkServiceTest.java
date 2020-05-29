@@ -27,7 +27,7 @@ public class LinkServiceTest {
         String title = "my github";
         String description = "This is...";
         String image = "image file";
-        List<String> tags = Arrays.asList("Java", "Spring Boot", "JPA");
+        List<String> tags = Arrays.asList("Java", "Spring-Boot", "JPA");
 
         LinkRequestDto linkRequestDto = new LinkRequestDto(url, title, description, image, tags);
 
@@ -43,7 +43,7 @@ public class LinkServiceTest {
         String title1 = "my github";
         String description1 = "This is...";
         String image1 = "image file 1";
-        List<String> tags1 = Arrays.asList("Java", "Spring Boot", "JPA");
+        List<String> tags1 = Arrays.asList("Java", "Spring-Boot", "JPA");
 
         LinkRequestDto linkRequestDto1 = new LinkRequestDto(url1, title1, description1, image1, tags1);
         linkService.save(linkRequestDto1);
@@ -52,7 +52,7 @@ public class LinkServiceTest {
         String title2 = "another github";
         String description2 = "This is...";
         String image2 = "image file 2";
-        List<String> tags2 = Arrays.asList("Kotlin", "Spring Boot", "JPA", "MySQL");
+        List<String> tags2 = Arrays.asList("Kotlin", "Spring-Boot", "JPA", "MySQL");
 
         LinkRequestDto linkRequestDto2 = new LinkRequestDto(url2, title2, description2, image2, tags2);
         linkService.save(linkRequestDto2);

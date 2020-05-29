@@ -42,7 +42,7 @@ public class LinkApiControllerTest {
         String title = "my github";
         String description = "This is...";
         String image = "image file";
-        List<String> tags = Arrays.asList("Java", "Spring Boot", "JPA");
+        List<String> tags = Arrays.asList("Java", "Spring-Boot", "JPA");
 
         LinkRequestDto linkRequestDto = new LinkRequestDto(url, title, description, image, tags);
         LinkResponseDto linkResponseDto = new LinkResponseDto(1L, url, title, description, image, tags);
@@ -69,7 +69,7 @@ public class LinkApiControllerTest {
         String title = "my github";
         String description = "This is...";
         String image = "image file";
-        List<String> tags = Arrays.asList("Java", "Spring Boot", "JPA");
+        List<String> tags = Arrays.asList("Java", "Spring-Boot", "JPA");
 
         LinkResponseDto linkResponseDto1 = new LinkResponseDto(1L, url, title, description, image, tags);
         LinkResponseDto linkResponseDto2 = new LinkResponseDto(2L, url, title, description, image, tags);

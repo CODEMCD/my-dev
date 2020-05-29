@@ -1,6 +1,7 @@
 package com.codemcd.mydev.linkbucket.web;
 
 import com.codemcd.mydev.linkbucket.service.TagService;
+import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,16 +36,46 @@ public class TagApiControllerTest {
     @Test
     @DisplayName("Tag 전체 조회")
     void find_all() throws Exception {
-        List<TagResponseDto> tags = Arrays.asList(
+        List<TagResponseDto> responses = Arrays.asList(
                 new TagResponseDto(1L, "Java", 10),
-                new TagResponseDto(2L, "Spring Boot", 7),
+                new TagResponseDto(2L, "Spring-Boot", 7),
                 new TagResponseDto(3L, "JPA", 5),
                 new TagResponseDto(4L, "C++", 1)
         );
 
-        given(tagService.findAll()).willReturn(tags);
+        given(tagService.findAll()).willReturn(responses);
 
         ResultActions actions = mvc.perform(get("/tags")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print());
+
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    @DisplayName("특정 Tag 조회")
+    void find() throws Exception {
+        String url1 = "www.github.com/codemcd";
+        String title1 = "my github";
+        String description1 = "This is...";
+        String image1 = "image file 1";
+        List<String> tags1 = Arrays.asList("Java", "Spring-Boot", "JPA");
+
+        String url2 = "www.github.com/park";
+        String title2 = "another github";
+        String description2 = "This is...";
+        String image2 = "image file 2";
+        List<String> tags2 = Arrays.asList("Kotlin", "Spring-Boot", "JPA", "MySQL");
+
+        List<LinkResponseDto> responses = Arrays.asList(
+                new LinkResponseDto(1L, url1, title1, description1, image1, tags1),
+                new LinkResponseDto(2L, url2, title2, description2, image2, tags2)
+        );
+
+        given(tagService.find(any())).willReturn(responses);
+
+        ResultActions actions = mvc.perform(get("/tags/Spring-Boot")
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print());
 
