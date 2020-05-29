@@ -46,6 +46,7 @@ public class LinkService {
                 link.getImage(), tags.stream().map(Tag::getName).collect(Collectors.toList()));
     }
 
+    @Transactional(readOnly = true)
     public List<LinkResponseDto> findAll() {
         List<Link> links = linkRepository.findAllJoinFetch();
 

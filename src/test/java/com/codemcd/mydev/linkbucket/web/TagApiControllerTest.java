@@ -2,6 +2,7 @@ package com.codemcd.mydev.linkbucket.web;
 
 import com.codemcd.mydev.linkbucket.service.TagService;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,6 +32,7 @@ public class TagApiControllerTest {
     private TagService tagService;
 
     @Test
+    @DisplayName("Tag 전체 조회")
     void find_all() throws Exception {
         List<TagResponseDto> tags = Arrays.asList(
                 new TagResponseDto(1L, "Java", 10),
