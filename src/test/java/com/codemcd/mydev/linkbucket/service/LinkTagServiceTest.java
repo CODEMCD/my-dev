@@ -1,6 +1,7 @@
 package com.codemcd.mydev.linkbucket.service;
 
 import com.codemcd.mydev.linkbucket.domain.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class LinkTagServiceTest {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @AfterEach
+    void tearDown() {
+        linkRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("Link, Tag의 정보를 갖는 LinkTag를 저장한다.")

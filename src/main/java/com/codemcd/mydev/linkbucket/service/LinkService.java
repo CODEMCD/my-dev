@@ -57,4 +57,9 @@ public class LinkService {
                 .collect(Collectors.toList())
                 ;
     }
+
+    @Transactional
+    public void deleteAll() {
+        linkRepository.deleteAll();
+    }
 }

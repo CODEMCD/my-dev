@@ -4,6 +4,7 @@ import com.codemcd.mydev.linkbucket.domain.Tag;
 import com.codemcd.mydev.linkbucket.service.dto.LinkRequestDto;
 import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class TagServiceTest {
 
     @Autowired
     private LinkService linkService;
+
+    @AfterEach
+    void tearDown() {
+        linkService.deleteAll();
+    }
 
     @Test
     @DisplayName("데이터베이스에 없는 Tag는 저장한다.")

@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -31,7 +28,7 @@ public class Link extends BaseEntity {
     @Column(name = "IMAGE")
     private String image;
 
-    @OneToMany(mappedBy = "link")
+    @OneToMany(mappedBy = "link", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LinkTag> tags = new LinkedHashSet<>();
 
     @Builder

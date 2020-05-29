@@ -2,6 +2,7 @@ package com.codemcd.mydev.linkbucket.service;
 
 import com.codemcd.mydev.linkbucket.service.dto.LinkRequestDto;
 import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class LinkServiceTest {
 
     @Autowired
     private LinkService linkService;
+
+    @AfterEach
+    void tearDown() {
+        linkService.deleteAll();
+    }
 
     @Test
     @DisplayName("LinkRequestDto로 Link 저장 요청이 오면, 데이터베이스에 저장 후 LinkResponseDto를 반환한다.")
