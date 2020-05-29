@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface TagRepository extends JpaRepository<Tag, Long> {
     Optional<Tag> findByName(String tagName);
 
+    @Query("SELECT DISTINCT t FROM Tag t JOIN FETCH t.links WHERE t.name = ?1")
+    Optional<Tag> findByNameJoinFetch(String tagName);
+
     @Query("SELECT DISTINCT t FROM Tag t JOIN FETCH t.links")
     List<Tag> findAllJoinFetch();
 }

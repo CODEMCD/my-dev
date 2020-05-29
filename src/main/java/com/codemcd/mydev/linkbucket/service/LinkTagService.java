@@ -7,6 +7,8 @@ import com.codemcd.mydev.linkbucket.domain.Tag;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class LinkTagService {
     private final LinkTagRepository linkTagRepository;
@@ -20,5 +22,10 @@ public class LinkTagService {
         LinkTag linkTag = LinkTag.builder().link(link).tag(tag).build();
 
         return linkTagRepository.save(linkTag);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Tag> findTagsByLink(Link link) {
+        return linkTagRepository.findTagsByLink(link);
     }
 }

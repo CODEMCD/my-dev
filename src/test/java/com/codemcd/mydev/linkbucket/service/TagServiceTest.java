@@ -2,6 +2,7 @@ package com.codemcd.mydev.linkbucket.service;
 
 import com.codemcd.mydev.linkbucket.domain.Tag;
 import com.codemcd.mydev.linkbucket.service.dto.LinkRequestDto;
+import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -77,5 +79,57 @@ public class TagServiceTest {
         System.out.println("tag id: " + res.getId() + ", " +
                 "tag name: " + res.getName() + ", " +
                 "num of link: " + res.getNumOfLink());
+    }
+
+    @Test
+    @DisplayName("데이터베이스에 저장되어 있는 tag name으로 조회했을 때 해당 Tag를 가진 모든 Link를 가져온다.")
+    void find() {
+        String url1 = "www.github.com/codemcd";
+        String title1 = "my github";
+        String description1 = "This is...";
+        String image1 = "image file 1";
+        List<String> tags1 = Arrays.asList("Java", "Spring-Boot", "JPA");
+
+        LinkRequestDto linkRequestDto1 = new LinkRequestDto(url1, title1, description1, image1, tags1);
+        linkService.save(linkRequestDto1);
+
+        String url2 = "www.github.com/park";
+        String title2 = "another github";
+        String description2 = "This is...";
+        String image2 = "image file 2";
+        List<String> tags2 = Arrays.asList("Kotlin", "Spring-Boot", "JPA", "MySQL");
+
+        LinkRequestDto linkRequestDto2 = new LinkRequestDto(url2, title2, description2, image2, tags2);
+        linkService.save(linkRequestDto2);
+
+        List<LinkResponseDto> responses = tagService.find("Spring-Boot");
+
+        assertThat(responses.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("데이터베이스에 저장되어 있지 않는 tag name일 때 예외가 발생한다.")
+    void find_empty_exception() {
+        String url1 = "www.github.com/codemcd";
+        String title1 = "my github";
+        String description1 = "This is...";
+        String image1 = "image file 1";
+        List<String> tags1 = Arrays.asList("Java", "Spring-Boot", "JPA");
+
+        LinkRequestDto linkRequestDto1 = new LinkRequestDto(url1, title1, description1, image1, tags1);
+        linkService.save(linkRequestDto1);
+
+        String url2 = "www.github.com/park";
+        String title2 = "another github";
+        String description2 = "This is...";
+        String image2 = "image file 2";
+        List<String> tags2 = Arrays.asList("Kotlin", "Spring-Boot", "JPA", "MySQL");
+
+        LinkRequestDto linkRequestDto2 = new LinkRequestDto(url2, title2, description2, image2, tags2);
+        linkService.save(linkRequestDto2);
+
+        assertThatThrownBy(() -> tagService.find("C++"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("유효하지 않는 Tag Name 입니다!");
     }
 }

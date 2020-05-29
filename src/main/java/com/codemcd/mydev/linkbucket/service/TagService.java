@@ -1,5 +1,6 @@
 package com.codemcd.mydev.linkbucket.service;
 
+import com.codemcd.mydev.linkbucket.domain.LinkTag;
 import com.codemcd.mydev.linkbucket.domain.Tag;
 import com.codemcd.mydev.linkbucket.domain.TagRepository;
 import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class TagService {
     private final TagRepository tagRepository;
+    private final LinkTagService linkTagService;
 
-    public TagService(TagRepository tagRepository) {
+    public TagService(TagRepository tagRepository, LinkTagService linkTagService) {
         this.tagRepository = tagRepository;
+        this.linkTagService = linkTagService;
     }
 
     @Transactional
@@ -35,6 +38,15 @@ public class TagService {
     }
 
     public List<LinkResponseDto> find(String tagName) {
-        return null;
+        Tag tag = tagRepository.findByNameJoinFetch(tagName)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않는 Tag Name 입니다!"));
+
+        return tag.getLinks().stream()
+                .map(LinkTag::getLink)
+                .map(link -> new LinkResponseDto(link.getId(), link.getUrl(), link.getTitle(),
+                        link.getDescription(), link.getImage(),
+                        linkTagService.findTagsByLink(link).stream().map(Tag::getName).collect(Collectors.toList())))
+                .collect(Collectors.toList())
+                ;
     }
 }
