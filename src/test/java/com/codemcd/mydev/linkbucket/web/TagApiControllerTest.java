@@ -3,6 +3,7 @@ package com.codemcd.mydev.linkbucket.web;
 import com.codemcd.mydev.linkbucket.service.TagService;
 import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
+import com.codemcd.mydev.linkbucket.service.exception.NotFoundTagNameException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +82,17 @@ public class TagApiControllerTest {
 
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 Tag Name으로 요청했을 때 Bad Request 상태의 응답을 받는다.")
+    void invalid_tag_name_request() throws Exception {
+        given(tagService.find(any())).willThrow(NotFoundTagNameException.class);
+
+        ResultActions actions = mvc.perform(get("/tags/non-tag")
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print());
+
+        actions.andExpect(status().isBadRequest());
     }
 }

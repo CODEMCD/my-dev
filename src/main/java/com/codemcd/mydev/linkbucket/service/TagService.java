@@ -5,6 +5,7 @@ import com.codemcd.mydev.linkbucket.domain.Tag;
 import com.codemcd.mydev.linkbucket.domain.TagRepository;
 import com.codemcd.mydev.linkbucket.service.dto.LinkResponseDto;
 import com.codemcd.mydev.linkbucket.service.dto.TagResponseDto;
+import com.codemcd.mydev.linkbucket.service.exception.NotFoundTagNameException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +38,10 @@ public class TagService {
                 ;
     }
 
+    @Transactional(readOnly = true)
     public List<LinkResponseDto> find(String tagName) {
         Tag tag = tagRepository.findByNameJoinFetch(tagName)
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않는 Tag Name 입니다!"));
+                .orElseThrow(() -> new NotFoundTagNameException("유효하지 않는 Tag Name 입니다!"));
 
         return tag.getLinks().stream()
                 .map(LinkTag::getLink)
